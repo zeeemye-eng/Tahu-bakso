@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tahu Bakso XIC</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #fff8ef;
+      text-align: center;
+      padding: 20px;
+      color: #4a2c00;
+    }
+
+    h1 {
+      color: #e67e22;
+      margin-bottom: 5px;
+    }
+
+    .slide {
+      display: none;
+    }
+
+    .slide.active {
+      display: block;
+    }
+
+    .menu {
+      background: #ffe0b2;
+      margin: 10px auto;
+      padding: 20px;
+      border-radius: 14px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      width: 85%;
+      text-align: left;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 10px;
+    }
+
+    select, input, textarea {
+      margin-top: 5px;
+      width: 100%;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #d1b38c;
+    }
+
+    .varian-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .varian-item input[type="number"] {
+      width: 60px;
+      margin-left: 10px;
+    }
+
+    .total {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #c0392b;
+      text-align: left;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #e67e22;
+      border: none;
+      border-radius: 10px;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    button:active {
+      background: #d35400;
+    }
+
+    .judul {
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    .payment-options {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 20px;
+    }
+
+    .payment-options button {
+      width: 45%;
+    }
+
+    .message {
+      margin-top: 20px;
+      font-size: 16px;
+      color: #4a2c00;
+    }
+
+    .instagram-link {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .instagram-link a {
+      color: #e67e22;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🍢 Tahu Bakso XIC 🍢</h1>
+
+  <!-- Slide 1: Selamat Datang -->
+  <div class="slide active" id="slide1">
+    <div class="menu">
+      <div class="judul">
+        <h2>Selamat Datang!</h2>
+        <p>Silahkan tulis pesanan anda.</p>
+      </div>
+      <button onclick="nextSlide(2)">Lanjut</button>
+    </div>
+  </div>
+
+  <!-- Slide 2: Form Pemesanan -->
+  <div class="slide" id="slide2">
+    <div class="menu">
+      <label for="nama">Nama Pelanggan:</label>
+      <input type="text" id="nama" placeholder="Masukkan nama kamu">
+
+      <label>Varian Tahu Bakso (Pilih dan isi jumlah):</label>
+      <div class="varian-item">
+        <input type="checkbox" id="sosis" value="3000"> Sosis (Rp 3.000)
+        <input type="number" id="sosis_qty" min="0" value="0" style="margin-left: 10px;">
+      </div>
+      <div class="varian-item">
+        <input type="checkbox" id="cabe" value="2000"> Cabe (Rp 2.000)
+        <input type="number" id="cabe_qty" min="0" value="0" style="margin-left: 10px;">
+      </div>
+      <div class="varian-item">
+        <input type="checkbox" id="telur" value="2500"> Telur Puyuh (Rp 2.500)
+        <input type="number" id="telur_qty" min="0" value="0" style="margin-left: 10px;">
+      </div>
+      <div class="varian-item">
+        <input type="checkbox" id="jamur" value="2000"> Jamur (Rp 2.000)
+        <input type="number" id="jamur_qty" min="0" value="0" style="margin-left: 10px;">
+      </div>
+
+      <label for="saos">Pilih Saos (Gratis):</label>
+      <select id="saos">
+        <option value="Bangkok Asam Manis">Saos Bangkok Asam Manis</option>
+        <option value="Pedas">Saos Pedas</option>
+        <option value="Kacang Manis">Saos Kacang Manis</option>
+      </select>
+
+      <label for="jam">Jam Pengantaran:</label>
+      <input type="time" id="jam">
+      <small style="color: #666;">Catatan: Pengantaran malam hari mungkin tidak tersedia.</small>
+
+      <label for="lokasi">Tempat Pengantaran:</label>
+      <select id="lokasi">
+        <option value="Sekolah">Sekolah</option>
+        <option value="Sekitar Sekolah">Sekitar Sekolah</option>
+      </select>
+      <textarea id="lokasi_detail" placeholder="Jelaskan detail tempat pengantaran (misalnya: depan gerbang utara, dll.)" rows="3"></textarea>
+
+      <button onclick="hitungTotal()">Hitung Total</button>
+      <div class="total" id="total">Total: Rp 0</div>
+      <button onclick="nextSlide(3)">Terima Kasih, Jangan Lupa Bayar</button>
+    </div>
+  </div>
+
+  <!-- Slide 3: Pilihan Pembayaran -->
+  <div class="slide" id="slide3">
+    <div class="menu">
+      <div class="judul">
+        <h2>Pilih Metode Pembayaran</h2>
+      </div>
+      <div class="payment-options">
+        <button onclick="pilihPembayaran('tempat')">Bayar di Tempat</button>
+        <button onclick="pilihPembayaran('hutang')">Hutang</button>
+      </div>
+      <div class="message" id="paymentMessage"></div>
+      <button id="kembaliBtn" style="display: none;" onclick="nextSlide(3)">Kembali</button>
+    </div>
+  </div>
+
+  <!-- Slide 4: Terima Kasih -->
+  <div class="slide" id="slide4">
+    <div class="menu">
+      <div class="judul">
+        <h2>TERIMAKASIH!</h2>
+        <p>Pesanan Anda telah diterima. Kami akan segera memprosesnya.</p>
+      </div>
+      <div class="instagram-link">
+        <p>Ikuti kami di Instagram untuk update terbaru:</p>
+        <a href="https://www.instagram.com/tahu_bakso_xic" target="_blank">@tahu_bakso_xic</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentSlide = 1;
+
+    function nextSlide(slideNumber) {
+      document.getElementById('slide' + currentSlide).classList.remove('active');
+      document.getElementById('slide' + slideNumber).classList.add('active');
+      currentSlide = slideNumber;
+    }
+
+    function hitungTotal() {
+      let total = 0;
+      let pesanan = [];
+
+      const varians = [
+        { id: 'sosis', name: 'Sosis', price: 3000, qtyId: 'sosis_qty' },
+        { id: 'cabe', name: 'Cabe', price: 2000, qtyId: 'cabe_qty' },
+        { id: 'telur', name: 'Telur Puyuh', price: 2500, qtyId: 'telur_qty' },
+        { id: 'jamur', name: 'Jamur', price: 2000, qtyId: 'jamur_qty' }
+      ];
+
+      varians.forEach(v => {
+        if (document.getElementById(v.id).checked) {
+          let qty = parseInt(document.getElementById(v.qtyId).value) || 0;
+          if (qty > 0) {
+            total += v.price * qty;
+            pesanan.push(`${v.name}: ${qty} x Rp ${v.price.toLocaleString("id-ID")} = Rp ${(v.price * qty).toLocaleString("id-ID")}`);
+          }
+        }
+      });
+
+      let nama = document.getElementById("nama").value;
+      let jam = document.getElementById("jam").value;
+      let lokasi = document.getElementById("lokasi").value;
+      let lokasiDetail = document.getElementById("lokasi_detail").value;
+      let saos = document.getElementById("saos").value;
+
+      document.getElementById("total").innerHTML =
+        `<b>Total:</b> Rp ${total.toLocaleString("id-ID")} <br><br>` +
+        pesanan.join('<br>') + '<br><br>' +
+        `<b>Nama:</b> ${nama || "-"}<br>` +
+        `<b>Saos:</b> ${saos}<br>` +
+        `<b>Antar:</b> ${lokasi} ${lokasiDetail ? '(' + lokasiDetail + ')' : ''} jam ${jam || "-"}`;
+    }
+
+    function pilihPembayaran(method) {
+      if (method === 'tempat') {
+        document.getElementById("paymentMessage").innerHTML = "BAIK TERIMA TUNGGU ANTRIAN ANDA";
+        kirimWhatsApp();
+        setTimeout(() => nextSlide(4), 2000);
+      } else if (method === 'hutang') {
+        document.getElementById("paymentMessage").innerHTML = "Maaf metode pembayaran ini tidak bisa digunakan saat ini, silahkan coba metode pembayaran lainnya. Terima kasih.";
+        document.getElementById("kembaliBtn").style.display = "block";
+      }
+    }
+
+    function kirimWhatsApp() {
+      let pesananText = document.getElementById("total").innerText.replace(/<br>/g, '\n').replace(/<b>|<\/b>/g, '');
+      let whatsappUrl = `https://wa.me/6282150000434?text=${encodeURIComponent(pesananText)}`;
+      window.open(whatsappUrl, '_blank');
+    }
+  </script>
+
+</body>
+</html>
